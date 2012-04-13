@@ -158,65 +158,65 @@ FKFace FKFaceConvertFace(FKFace face, CGSize targetSize)
 #pragma mark - Video Data Output Delegate
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
-{	
-	// Create a Core Video pixel buffer from the sample buffer, the create the Core Image from that buffer
-	CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-	CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault, sampleBuffer, kCMAttachmentMode_ShouldPropagate);
-	CIImage *ciImage = [[CIImage alloc] initWithCVPixelBuffer:pixelBuffer options:(__bridge_transfer NSDictionary *)attachments];
+{    
+    // Create a Core Video pixel buffer from the sample buffer, the create the Core Image from that buffer
+    CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    CFDictionaryRef attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault, sampleBuffer, kCMAttachmentMode_ShouldPropagate);
+    CIImage *ciImage = [[CIImage alloc] initWithCVPixelBuffer:pixelBuffer options:(__bridge_transfer NSDictionary *)attachments];
 
     // Convert the device's orientation to a photo's exif orientation used by Core Image
-	NSDictionary *imageOptions = nil;
-	UIDeviceOrientation curDeviceOrientation = [[UIDevice currentDevice] orientation];
-	int exifOrientation;
-	
-	enum {
-		PHOTOS_EXIF_0ROW_TOP_0COL_LEFT			= 1, //   1  =  0th row is at the top, and 0th column is on the left (THE DEFAULT).
-		PHOTOS_EXIF_0ROW_TOP_0COL_RIGHT			= 2, //   2  =  0th row is at the top, and 0th column is on the right.  
-		PHOTOS_EXIF_0ROW_BOTTOM_0COL_RIGHT      = 3, //   3  =  0th row is at the bottom, and 0th column is on the right.  
-		PHOTOS_EXIF_0ROW_BOTTOM_0COL_LEFT       = 4, //   4  =  0th row is at the bottom, and 0th column is on the left.  
-		PHOTOS_EXIF_0ROW_LEFT_0COL_TOP          = 5, //   5  =  0th row is on the left, and 0th column is the top.  
-		PHOTOS_EXIF_0ROW_RIGHT_0COL_TOP         = 6, //   6  =  0th row is on the right, and 0th column is the top.  
-		PHOTOS_EXIF_0ROW_RIGHT_0COL_BOTTOM      = 7, //   7  =  0th row is on the right, and 0th column is the bottom.  
-		PHOTOS_EXIF_0ROW_LEFT_0COL_BOTTOM       = 8  //   8  =  0th row is on the left, and 0th column is the bottom.  
-	};
-	
-	switch (curDeviceOrientation)
-    {
-		case UIDeviceOrientationPortraitUpsideDown:  // Device oriented vertically, home button on the top
-			exifOrientation = PHOTOS_EXIF_0ROW_LEFT_0COL_BOTTOM;
-			break;
-		case UIDeviceOrientationLandscapeLeft:       // Device oriented horizontally, home button on the right
-			if (_isUsingFrontFacingCamera)
-				exifOrientation = PHOTOS_EXIF_0ROW_BOTTOM_0COL_RIGHT;
-			else
-				exifOrientation = PHOTOS_EXIF_0ROW_TOP_0COL_LEFT;
-			break;
-		case UIDeviceOrientationLandscapeRight:      // Device oriented horizontally, home button on the left
-			if (_isUsingFrontFacingCamera)
-				exifOrientation = PHOTOS_EXIF_0ROW_TOP_0COL_LEFT;
-			else
-				exifOrientation = PHOTOS_EXIF_0ROW_BOTTOM_0COL_RIGHT;
-			break;
-		case UIDeviceOrientationPortrait:            // Device oriented vertically, home button on the bottom
-		default:
-			exifOrientation = PHOTOS_EXIF_0ROW_RIGHT_0COL_TOP;
-			break;
-	}
+    NSDictionary *imageOptions = nil;
+    UIDeviceOrientation curDeviceOrientation = [[UIDevice currentDevice] orientation];
+    int exifOrientation;
     
-	imageOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:exifOrientation] forKey:CIDetectorImageOrientation];
+    enum {
+        PHOTOS_EXIF_0ROW_TOP_0COL_LEFT          = 1, //   1  =  0th row is at the top, and 0th column is on the left (THE DEFAULT).
+        PHOTOS_EXIF_0ROW_TOP_0COL_RIGHT         = 2, //   2  =  0th row is at the top, and 0th column is on the right.  
+        PHOTOS_EXIF_0ROW_BOTTOM_0COL_RIGHT      = 3, //   3  =  0th row is at the bottom, and 0th column is on the right.  
+        PHOTOS_EXIF_0ROW_BOTTOM_0COL_LEFT       = 4, //   4  =  0th row is at the bottom, and 0th column is on the left.  
+        PHOTOS_EXIF_0ROW_LEFT_0COL_TOP          = 5, //   5  =  0th row is on the left, and 0th column is the top.  
+        PHOTOS_EXIF_0ROW_RIGHT_0COL_TOP         = 6, //   6  =  0th row is on the right, and 0th column is the top.  
+        PHOTOS_EXIF_0ROW_RIGHT_0COL_BOTTOM      = 7, //   7  =  0th row is on the right, and 0th column is the bottom.  
+        PHOTOS_EXIF_0ROW_LEFT_0COL_BOTTOM       = 8  //   8  =  0th row is on the left, and 0th column is the bottom.  
+    };
+    
+    switch (curDeviceOrientation)
+    {
+        case UIDeviceOrientationPortraitUpsideDown:  // Device oriented vertically, home button on the top
+                exifOrientation = PHOTOS_EXIF_0ROW_LEFT_0COL_BOTTOM;
+            break;
+        case UIDeviceOrientationLandscapeLeft:       // Device oriented horizontally, home button on the right
+            if (_isUsingFrontFacingCamera)
+                exifOrientation = PHOTOS_EXIF_0ROW_BOTTOM_0COL_RIGHT;
+            else
+                exifOrientation = PHOTOS_EXIF_0ROW_TOP_0COL_LEFT;
+            break;
+        case UIDeviceOrientationLandscapeRight:      // Device oriented horizontally, home button on the left
+            if (_isUsingFrontFacingCamera)
+                exifOrientation = PHOTOS_EXIF_0ROW_TOP_0COL_LEFT;
+            else
+                exifOrientation = PHOTOS_EXIF_0ROW_BOTTOM_0COL_RIGHT;
+            break;
+        case UIDeviceOrientationPortrait:            // Device oriented vertically, home button on the bottom
+        default:
+                exifOrientation = PHOTOS_EXIF_0ROW_RIGHT_0COL_TOP;
+            break;
+    }
+    
+    imageOptions = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:exifOrientation] forKey:CIDetectorImageOrientation];
     
     // Get the array of features from the current buffer's image
-	NSArray *features = [_faceDetector featuresInImage:ciImage options:imageOptions];
-	
+    NSArray *features = [_faceDetector featuresInImage:ciImage options:imageOptions];
+    
     // Get the portion of the buffer that we've used
-	CMFormatDescriptionRef fdesc = CMSampleBufferGetFormatDescription(sampleBuffer);
-	CGRect clap = CMVideoFormatDescriptionGetCleanAperture(fdesc, false /*originIsTopLeft*/);
-	
+    CMFormatDescriptionRef fdesc = CMSampleBufferGetFormatDescription(sampleBuffer);
+    CGRect clap = CMVideoFormatDescriptionGetCleanAperture(fdesc, false /*originIsTopLeft*/);
+    
     // Process the features on the main thread
-	dispatch_async(dispatch_get_main_queue(), ^(void)
+    dispatch_async(dispatch_get_main_queue(), ^(void)
     {
-		[self processFeatures:features inFrame:clap atOrientation:curDeviceOrientation];
-	});
+        [self processFeatures:features inFrame:clap atOrientation:curDeviceOrientation];
+    });
 }
 
 #pragma mark - Feature Processing
