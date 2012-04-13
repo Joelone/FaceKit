@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E4089201538A69B002E2ABC /* MainStoryboard-iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E40891E1538A69B002E2ABC /* MainStoryboard-iPhone.storyboard */; };
 		6EC7080B1538966F006DF58B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC7080A1538966F006DF58B /* UIKit.framework */; };
 		6EC7080D1538966F006DF58B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC7080C1538966F006DF58B /* Foundation.framework */; };
 		6EC7080F1538966F006DF58B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC7080E1538966F006DF58B /* CoreGraphics.framework */; };
@@ -95,6 +96,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6E40891F1538A69B002E2ABC /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = "en.lproj/MainStoryboard-iPhone.storyboard"; sourceTree = "<group>"; };
 		6EC708061538966F006DF58B /* AudiA6Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudiA6Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EC7080A1538966F006DF58B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		6EC7080C1538966F006DF58B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -245,6 +247,7 @@
 				6EC7081915389670006DF58B /* A6AppDelegate.h */,
 				6EC7081A15389670006DF58B /* A6AppDelegate.m */,
 				6EC7081C15389670006DF58B /* MainStoryboard.storyboard */,
+				6E40891E1538A69B002E2ABC /* MainStoryboard-iPhone.storyboard */,
 				6EC7081F15389670006DF58B /* A6ViewController.h */,
 				6EC7082015389670006DF58B /* A6ViewController.m */,
 				6EC7081115389670006DF58B /* Supporting Files */,
@@ -478,6 +481,7 @@
 				6EC708C5153899D0006DF58B /* A6_AB_00070.jpg in Resources */,
 				6EC708C6153899D0006DF58B /* A6_AB_00071.jpg in Resources */,
 				6EC708C7153899D0006DF58B /* A6_AB_00072.jpg in Resources */,
+				6E4089201538A69B002E2ABC /* MainStoryboard-iPhone.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,6 +502,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		6E40891E1538A69B002E2ABC /* MainStoryboard-iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6E40891F1538A69B002E2ABC /* en */,
+			);
+			name = "MainStoryboard-iPhone.storyboard";
+			sourceTree = "<group>";
+		};
 		6EC7081315389670006DF58B /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -571,6 +583,7 @@
 				GCC_PREFIX_HEADER = "AudiA6Example/AudiA6Example-Prefix.pch";
 				INFOPLIST_FILE = "AudiA6Example/AudiA6Example-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -582,6 +595,7 @@
 				GCC_PREFIX_HEADER = "AudiA6Example/AudiA6Example-Prefix.pch";
 				INFOPLIST_FILE = "AudiA6Example/AudiA6Example-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -605,6 +619,7 @@
 				6EC7082615389670006DF58B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
