@@ -53,10 +53,13 @@
     
     _faceDetector.detectionHandler = ^(FKFace face)
     {
-        _leftEyeView.center = FKFaceAdjustPoint(face.leftEye, self.view.frame);
-        _rightEyeView.center = FKFaceAdjustPoint(face.rightEye, self.view.frame);
-        _mouthView.center = FKFaceAdjustPoint(face.mouth, self.view.frame);
-        _faceView.frame = FKFaceAdjustFrame(face.frame, self.view.frame);
+        // Use a face struct adjusted to account for the size of the view's frame
+        FKFace adjustedFace = FKFaceConvertFace(face, self.view.frame.size);
+        
+        _leftEyeView.center = adjustedFace.leftEye;
+        _rightEyeView.center = adjustedFace.rightEye;
+        _mouthView.center = adjustedFace.mouth;
+        _faceView.frame = adjustedFace.frame;
 
         CGFloat faceX = face.center.x;
         

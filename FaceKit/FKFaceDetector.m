@@ -3,23 +3,36 @@
 //  FaceTest
 //
 //  Created by Andy Roth on 4/12/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Roozy. All rights reserved.
 //
 
 #import "FKFaceDetector.h"
 
-CGRect FKFaceAdjustFrame(CGRect faceFrame, CGRect viewFrame)
+CGRect FKFaceConvertFrame(CGRect faceFrame, CGSize targetSize)
 {
-    CGRect rect = CGRectMake(faceFrame.origin.x * viewFrame.size.width, faceFrame.origin.y * viewFrame.size.height, faceFrame.size.width * viewFrame.size.width, faceFrame.size.height * viewFrame.size.height);
+    CGRect rect = CGRectMake(faceFrame.origin.x * targetSize.width, faceFrame.origin.y * targetSize.height, faceFrame.size.width * targetSize.width, faceFrame.size.height * targetSize.height);
     
     return rect;
 }
 
-CGPoint FKFaceAdjustPoint(CGPoint facePoint, CGRect viewFrame)
+CGPoint FKFaceConvertPoint(CGPoint facePoint, CGSize targetSize)
 {
-    CGPoint point = CGPointMake(facePoint.x * viewFrame.size.width, facePoint.y * viewFrame.size.height);
+    CGPoint point = CGPointMake(facePoint.x * targetSize.width, facePoint.y * targetSize.height);
     
     return point;
+}
+
+FKFace FKFaceConvertFace(FKFace face, CGSize targetSize)
+{
+    FKFace resultFace;
+    
+    resultFace.leftEye = FKFaceConvertPoint(face.leftEye, targetSize);
+    resultFace.rightEye = FKFaceConvertPoint(face.rightEye, targetSize);
+    resultFace.mouth = FKFaceConvertPoint(face.mouth, targetSize);
+    resultFace.frame = FKFaceConvertFrame(face.frame, targetSize);
+    resultFace.center = FKFaceConvertPoint(face.center, targetSize);
+    
+    return resultFace;
 }
 
 @interface FKFaceDetector ()
