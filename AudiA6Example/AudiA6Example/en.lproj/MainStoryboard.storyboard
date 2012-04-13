@@ -24,18 +24,23 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
-                            <view hidden="YES" alpha="0.5" contentMode="scaleToFill" id="Ypf-qE-K8x">
+                            <view alpha="0.5" contentMode="scaleToFill" id="Ypf-qE-K8x">
                                 <rect key="frame" x="264" y="237" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view hidden="YES" alpha="0.5" contentMode="scaleToFill" id="M3M-37-UsT">
+                            <view alpha="0.5" contentMode="scaleToFill" id="M3M-37-UsT">
                                 <rect key="frame" x="472" y="237" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view hidden="YES" alpha="0.5" contentMode="scaleToFill" id="Nsc-Gp-moU">
+                            <view alpha="0.5" contentMode="scaleToFill" id="Nsc-Gp-moU">
                                 <rect key="frame" x="309" y="392" width="160" height="24"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view alpha="0.29999999999999999" contentMode="scaleToFill" id="j9v-zR-fbg">
+                                <rect key="frame" x="304" y="490" width="160" height="24"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -57,6 +62,7 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                     </view>
                     <connections>
+                        <outlet property="faceView" destination="j9v-zR-fbg" id="090-Zo-nTM"/>
                         <outlet property="imageView" destination="F7K-Hp-xsd" id="E4m-Hy-bxn"/>
                         <outlet property="leftEyeView" destination="Ypf-qE-K8x" id="2xJ-sb-qgr"/>
                         <outlet property="mouthView" destination="Nsc-Gp-moU" id="yiq-pz-pLC"/>
@@ -72,6 +78,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/A6ViewController.h"/>
             <relationships>
                 <relationship kind="action" name="togglePreview:" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="faceView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="leftEyeView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="mouthView" candidateClass="UIView"/>

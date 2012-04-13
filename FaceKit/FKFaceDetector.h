@@ -12,7 +12,20 @@
 #import <CoreMedia/CoreMedia.h>
 #import <CoreVideo/CoreVideo.h>
 
-typedef void(^FKFaceDetectionHandler)(CGPoint leftEyePosition, CGPoint rightEyePosition, CGPoint mouthPosition);           // Resolution independent, so values are 0-1.
+struct FKFace
+{
+    CGPoint leftEye;
+    CGPoint rightEye;
+    CGPoint mouth;
+    CGRect frame;
+    CGPoint center;
+};
+typedef struct FKFace FKFace;
+
+CGRect FKFaceAdjustFrame(CGRect faceFrame, CGRect viewFrame);
+CGPoint FKFaceAdjustPoint(CGPoint facePoint, CGRect viewFrame);
+
+typedef void(^FKFaceDetectionHandler)(FKFace face);           // Resolution independent, so values are 0-1.
 
 @interface FKFaceDetector : NSObject <AVCaptureVideoDataOutputSampleBufferDelegate>
 

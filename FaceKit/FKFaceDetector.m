@@ -8,6 +8,20 @@
 
 #import "FKFaceDetector.h"
 
+CGRect FKFaceAdjustFrame(CGRect faceFrame, CGRect viewFrame)
+{
+    CGRect rect = CGRectMake(faceFrame.origin.x * viewFrame.size.width, faceFrame.origin.y * viewFrame.size.height, faceFrame.size.width * viewFrame.size.width, faceFrame.size.height * viewFrame.size.height);
+    
+    return rect;
+}
+
+CGPoint FKFaceAdjustPoint(CGPoint facePoint, CGRect viewFrame)
+{
+    CGPoint point = CGPointMake(facePoint.x * viewFrame.size.width, facePoint.y * viewFrame.size.height);
+    
+    return point;
+}
+
 @interface FKFaceDetector ()
 {
 @private
@@ -201,35 +215,49 @@
         // Look for a facial feature
         if ([feature isKindOfClass:[CIFaceFeature class]])
         {
+            FKFace face;
+            
             // Convert the positions of each feature to be relative, resolution independent
             CIFaceFeature *faceFeature = (CIFaceFeature *)feature;
-            CGPoint leftEye = CGPointZero;
-            CGPoint rightEye = CGPointZero;
-            CGPoint mouth = CGPointZero;
+            face.leftEye = CGPointZero;
+            face.rightEye = CGPointZero;
+            face.mouth = CGPointZero;
             
+            // The front camera acts as a mirror, so the left and right eyes are switched
             if (faceFeature.hasLeftEyePosition)
             {
                 CGFloat adjustedX = (1 - (faceFeature.leftEyePosition.y / frame.size.height));
                 CGFloat adjustedY = (faceFeature.leftEyePosition.x / frame.size.width);
-                leftEye = CGPointMake(adjustedX, adjustedY);
+                face.rightEye = CGPointMake(adjustedX, adjustedY);
             }
             
             if (faceFeature.hasRightEyePosition)
             {
                 CGFloat adjustedX = (1 - (faceFeature.rightEyePosition.y / frame.size.height));
                 CGFloat adjustedY = (faceFeature.rightEyePosition.x / frame.size.width);
-                rightEye = CGPointMake(adjustedX, adjustedY);
+                face.leftEye = CGPointMake(adjustedX, adjustedY);
             }
             
             if (faceFeature.hasMouthPosition)
             {
                 CGFloat adjustedX = (1 - (faceFeature.mouthPosition.y / frame.size.height));
                 CGFloat adjustedY = (faceFeature.mouthPosition.x / frame.size.width);
-                mouth = CGPointMake(adjustedX, adjustedY);
+                face.mouth = CGPointMake(adjustedX, adjustedY);
             }
+            
+            CGRect faceFrame;
+            faceFrame.origin.x = MIN(MIN(face.leftEye.x, face.rightEye.x), face.mouth.x);
+            faceFrame.origin.y = MIN(MIN(face.leftEye.y, face.rightEye.y), face.mouth.y);
+            CGFloat maxX = MAX(MAX(face.leftEye.x, face.rightEye.x), face.mouth.x);
+            CGFloat maxY = MAX(MAX(face.leftEye.y, face.rightEye.y), face.mouth.y);
+            faceFrame.size.width = maxX - faceFrame.origin.x;
+            faceFrame.size.height = maxY - faceFrame.origin.y;
+            
+            face.frame = faceFrame;
+            face.center = CGPointMake(faceFrame.origin.x + (faceFrame.size.width / 2), faceFrame.origin.y + (faceFrame.size.height / 2));
 
             // Call the handler block
-            _detectionHandler(leftEye, rightEye, mouth);
+            _detectionHandler(face);
         }
     }
 }

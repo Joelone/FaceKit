@@ -20,6 +20,7 @@
 @property (nonatomic, strong) IBOutlet UIView *leftEyeView;
 @property (nonatomic, strong) IBOutlet UIView *rightEyeView;
 @property (nonatomic, strong) IBOutlet UIView *mouthView;
+@property (nonatomic, strong) IBOutlet UIView *faceView;
 
 @property (nonatomic, strong) IBOutlet UIImageView *imageView;
 @property (nonatomic, strong) IBOutlet UIView *previewView;
@@ -36,6 +37,7 @@
 @synthesize leftEyeView = _leftEyeView;
 @synthesize rightEyeView = _rightEyeView;
 @synthesize mouthView = _mouthView;
+@synthesize faceView = _faceView;
 @synthesize imageView = _imageView;
 @synthesize previewView = _previewView;
 
@@ -45,52 +47,25 @@
     [self redraw];
     
     _faceDetector = [[FKFaceDetector alloc] init];
-    
-    // Uncomment to add a preview layer
     _faceDetector.previewRootLayer = _previewView.layer;
     
     __block A6ViewController *blockSelf = self;
     
-    _faceDetector.detectionHandler = ^(CGPoint leftEyePosition, CGPoint rightEyePosition, CGPoint mouthPosition)
+    _faceDetector.detectionHandler = ^(FKFace face)
     {
-        if (!CGPointEqualToPoint(leftEyePosition, CGPointZero))
-        {
-            _leftEyeView.hidden = NO;
-            _leftEyeView.center = CGPointMake(leftEyePosition.x * self.view.frame.size.width, leftEyePosition.y * self.view.frame.size.height);
-        }
-        else
-        {
-            _leftEyeView.hidden = YES;
-        }
-        
-        if (!CGPointEqualToPoint(rightEyePosition, CGPointZero))
-        {
-            _rightEyeView.hidden = NO;
-            _rightEyeView.center = CGPointMake(rightEyePosition.x * self.view.frame.size.width, rightEyePosition.y * self.view.frame.size.height);
-        }
-        else
-        {
-            _rightEyeView.hidden = YES;
-        }
-        
-        if (!CGPointEqualToPoint(mouthPosition, CGPointZero))
-        {
-            _mouthView.hidden = NO;
-            _mouthView.center = CGPointMake(mouthPosition.x * self.view.frame.size.width, mouthPosition.y * self.view.frame.size.height);
-        }
-        else
-        {
-            _mouthView.hidden = YES;
-        }
-        
-        CGFloat averageX = (leftEyePosition.x + rightEyePosition.x) / 2.0;
+        _leftEyeView.center = FKFaceAdjustPoint(face.leftEye, self.view.frame);
+        _rightEyeView.center = FKFaceAdjustPoint(face.rightEye, self.view.frame);
+        _mouthView.center = FKFaceAdjustPoint(face.mouth, self.view.frame);
+        _faceView.frame = FKFaceAdjustFrame(face.frame, self.view.frame);
+
+        CGFloat faceX = face.center.x;
         
         int changeAmount = 0;
         
-        if (averageX > 0.7) changeAmount = -2;
-        else if (averageX < 0.3) changeAmount = 2;
-        else if (averageX > 0.55) changeAmount = -1;
-        else if (averageX < 0.45) changeAmount = 1;
+        if (faceX > 0.7) changeAmount = -2;
+        else if (faceX < 0.3) changeAmount = 2;
+        else if (faceX > 0.55) changeAmount = -1;
+        else if (faceX < 0.45) changeAmount = 1;
         
         [blockSelf updateCurrentFrameBy:changeAmount];
     };
